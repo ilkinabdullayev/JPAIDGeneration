@@ -10,7 +10,8 @@ package com.ilkinabdullayev.jpaidgeneration;
  * @author ilkinabdullayev
  */
 public class Employee {
-     private int empId;
+
+    private int empId;
     private String empName;
     private double empSalary;
 
@@ -42,5 +43,5 @@ public class Employee {
     public String toString() {
         return "Test{" + "empId=" + empId + ", empName=" + empName + ", empSalary=" + empSalary + '}';
     }
-   
+
 }

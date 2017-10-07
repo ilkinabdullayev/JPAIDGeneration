@@ -19,16 +19,19 @@ import javax.persistence.TableGenerator;
  * @author ilkinabdullayev
  */
 @Entity
-@SequenceGenerator(name = "PERSON_SEQ",sequenceName = "PERSON_SEQ",initialValue = 1,allocationSize = 1)
+@TableGenerator(name = "TABLE_GENERATOR",table = "ID_TABLE",pkColumnName = "ID_TABLE_NAME",pkColumnValue = "PERSON_ID",valueColumnName = "ID_TABLE_VALUE")
+@SequenceGenerator(name = "PERSON_SEQ", sequenceName = "PERSON_SEQ", initialValue = 25, allocationSize = 75)
 public class Person implements Serializable {
-    
+
     @Id
-    //@GeneratedValue(strategy = GenerationType.AUTO)
-    // @GeneratedValue(strategy = GenerationType.IDENTITY)
-   // @GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "PERSON_SEQ")
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.AUTO)
+   //  @GeneratedValue(strategy = GenerationType.IDENTITY)
+    // @GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "PERSON_SEQ")//if you're using mysql db,orm will create autoincrement id
+   // @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    //@GeneratedValue(strategy = GenerationType.TABLE)//created SEQUENCE table
+   // @GeneratedValue(strategy = GenerationType.TABLE,generator = "TABLE_GENERATOR")
     private long id;
-    
+
     private String name;
 
     public long getId() {
@@ -46,8 +49,5 @@ public class Person implements Serializable {
     public void setName(String name) {
         this.name = name;
     }
-    
-    
-    
-    
+
 }
