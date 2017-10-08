@@ -24,7 +24,8 @@ import javax.persistence.TableGenerator;
 public class Person implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue//auto automatically
+   //  @GeneratedValue(strategy = GenerationType.AUTO)
    //  @GeneratedValue(strategy = GenerationType.IDENTITY)
     // @GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "PERSON_SEQ")//if you're using mysql db,orm will create autoincrement id
    // @GeneratedValue(strategy = GenerationType.SEQUENCE)
