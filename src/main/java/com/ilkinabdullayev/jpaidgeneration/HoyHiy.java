@@ -18,6 +18,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.transaction.NotSupportedException;
+import javax.transaction.SystemException;
 import javax.transaction.UserTransaction;
 
 /**
@@ -37,17 +39,32 @@ public class HoyHiy extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
 
-        for (int i = 1; i <= 111; i++) {
-            Person p = new Person();
-            p.setName("qaz" + i);
-            create(p);
-        }
+        try {
+            ut.begin();
 
-        for (int i = 1; i <= 111; i++) {
-            Employee t = new Employee();
-            t.setEmpName("qaz" + i);
-            t.setEmpSalary(23);
-            create(t);
+            for (int i = 1; i <= 111; i++) {
+                Person p = new Person();
+                p.setName("qaz" + i);
+
+                em.persist(p);
+            }
+
+            for (int i = 1; i <= 111; i++) {
+                Employee t = new Employee();
+                t.setEmpName("qaz" + i);
+                t.setEmpSalary(23);
+
+                em.persist(t);
+            }
+
+            ut.commit();
+        } catch (Exception ex) {
+            try {
+                ut.rollback();
+                Logger.getLogger(HoyHiy.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (Exception ex1) {
+                Logger.getLogger(HoyHiy.class.getName()).log(Level.SEVERE, null, ex1);
+            }
         }
 
         try (PrintWriter out = response.getWriter()) {
@@ -102,34 +119,4 @@ public class HoyHiy extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
-
-    public void create(Person p) {
-        try {
-            ut.begin();
-            em.persist(p);
-            ut.commit();
-        } catch (Exception ex) {
-            try {
-                ut.rollback();
-                Logger.getLogger(HoyHiy.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (Exception ex1) {
-                Logger.getLogger(HoyHiy.class.getName()).log(Level.SEVERE, null, ex1);
-            }
-        }
-    }
-
-    public void create(Employee t) {
-        try {
-            ut.begin();
-            em.persist(t);
-            ut.commit();
-        } catch (Exception ex) {
-            try {
-                ut.rollback();
-                Logger.getLogger(HoyHiy.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (Exception ex1) {
-                Logger.getLogger(HoyHiy.class.getName()).log(Level.SEVERE, null, ex1);
-            }
-        }
-    }
 }
